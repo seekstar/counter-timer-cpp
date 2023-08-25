@@ -4,7 +4,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class counter_timerRecipe(ConanFile):
     name = "counter-timer"
-    version = "0.1.1"
+    version = "0.2.0"
 
     # Optional metadata
     license = "MPLv2"
@@ -21,7 +21,6 @@ class counter_timerRecipe(ConanFile):
 
     def requirements(self):
         self.requires("rusty-cpp/[>=0.1.5]")
-        self.requires("rcu-vector/[~0.1]")
 
     def layout(self):
         cmake_layout(self)

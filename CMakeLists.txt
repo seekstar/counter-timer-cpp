@@ -4,9 +4,6 @@ project(counter-timer CXX)
 if (NOT TARGET rusty-cpp)
 	find_package(rusty-cpp CONFIG REQUIRED)
 endif()
-if (NOT TARGET rcu_vector_bp)
-	find_package(rcu-vector CONFIG REQUIRED COMPONENTS rcu_vector_bp)
-endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE include)
@@ -16,7 +13,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(${PROJECT_NAME}
 	INTERFACE
 		rusty-cpp
-		rcu_vector_bp
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "include/")
