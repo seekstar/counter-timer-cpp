@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 project(counter-timer CXX)
 
-find_package(rusty-cpp CONFIG REQUIRED)
-find_package(rcu-vector CONFIG REQUIRED COMPONENTS rcu_vector_bp)
+if (NOT TARGET rusty-cpp)
+	find_package(rusty-cpp CONFIG REQUIRED)
+endif()
+if (NOT TARGET rcu_vector_bp)
+	find_package(rcu-vector CONFIG REQUIRED COMPONENTS rcu_vector_bp)
+endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE include)
