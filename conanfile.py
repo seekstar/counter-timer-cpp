@@ -42,8 +42,8 @@ class counter_timerRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
+        self.cpp_info.set_property("cmake_target_name", "counter-timer")
         # For header-only packages, libdirs and bindirs are not used
         # so it's necessary to set those as empty.
-        self.cpp_info.set_property("cmake_target_name", "counter-timer")
         self.cpp_info.libdirs = []
         self.cpp_info.bindirs = []
