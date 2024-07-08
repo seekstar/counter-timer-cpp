@@ -4,7 +4,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class counter_timerRecipe(ConanFile):
     name = "counter-timer"
-    version = "0.2.0"
+    version = "0.3.0"
 
     # Optional metadata
     license = "MPLv2"

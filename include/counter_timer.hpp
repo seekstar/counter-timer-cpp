@@ -10,17 +10,6 @@
 
 namespace counter_timer {
 
-struct CountTime {
-	uint64_t count;
-	rusty::time::Duration time;
-	CountTime operator+(const CountTime &rhs) const {
-		return CountTime{
-			.count = count + rhs.count,
-			.time = time + rhs.time,
-		};
-	}
-};
-
 class TimerGuard;
 class Timer {
 public:
@@ -34,11 +23,9 @@ public:
 		nsec_.fetch_add(time.as_nanos(), std::memory_order_relaxed);
 	}
 	TimerGuard start() const;
-	CountTime status_nonatomic() const {
-		return CountTime{
-			.count = count(),
-			.time = time(),
-		};
+	void reset() const {
+		count_.store(0, std::memory_order_relaxed);
+		nsec_.store(0, std::memory_order_relaxed);
 	}
 private:
 	mutable std::atomic<uint64_t> count_;
@@ -62,25 +49,16 @@ private:
 
 inline TimerGuard Timer::start() const { return TimerGuard(*this); }
 
-class Timers {
-public:
-	Timers(size_t num) : timers_(num) {}
-	size_t len() const { return timers_.size(); }
-	const Timer &timer(size_t type) const { return timers_[type]; }
-private:
-	std::vector<Timer> timers_;
-};
-
 template <typename Type>
 class TypedTimers {
 public:
 	TypedTimers(size_t num) : timers_(num) {}
-	const Timers &timers() const { return timers_; }
+	const std::vector<Timer> &timers() const { return timers_; }
 	const Timer &timer(Type type) const {
-		return timers_.timer(static_cast<size_t>(type));
+		return timers_[static_cast<size_t>(type)];
 	}
 private:
-	Timers timers_;
+	std::vector<Timer> timers_;
 };
 
 } // namespace counter_timer
